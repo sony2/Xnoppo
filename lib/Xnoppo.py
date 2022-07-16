@@ -46,6 +46,7 @@ async def check_socket(config,session_id=None):
             return(0)
         except:
             if delay:
+                sendnotifyremote(config["Oppo_IP"])
                 await asyncio.sleep(delay)
     logging.info('Timeout esperando puerto del OPPO')
     return(1)
