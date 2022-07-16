@@ -1,3 +1,4 @@
+import asyncio
 import hashlib
 from urllib.parse import urlparse
 from urllib.parse import quote
@@ -29,31 +30,25 @@ def sendnotifyremote(UDP_IP):
 
     return 0
 
-def check_socket(config,session_id=None):
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+async def check_socket(config,session_id=None):
+    host = config["Oppo_IP"]
+    port = 436
+    delay = 2
+    duration = config["timeout_oppo_conection"]
+    tmax = time.time() + duration
     logging.info('Comprobando apertura del puerto del OPPO ')
-    result = sock.connect_ex((config["Oppo_IP"],436))
-    logging.debug("Resultado Chequeo: %s",str(result))
-    net_retries=config["timeout_oppo_conection"]
-    net_wait=0
-    while result > 0 and net_wait<net_retries:
-              time.sleep(1)
-              net_wait=net_wait+1
-              logging.info('Esperando apertura del puerto del OPPO')
-              logging.info( 'Reintento %s',str(net_wait))
-              #if session_id:
-              #      response_timeout = send_message2(session_id, 'Esperando conectar con el OPPO, reintento: ' + str(net_wait))
-              sendnotifyremote(config["Oppo_IP"])
-              result = sock.connect_ex((config["Oppo_IP"],436))
-    if net_wait>=net_retries:
-            logging.info('Timeout esperando puerto del OPPO')
-            #sys.exit("OPPO no disponible")
-            #if session_id:
-            #    response_timeout = send_message2(item_data["Id"], 'OPPO no disponible')
-            return(1)
-    else:
-            logging.info('Puerto del OPPO abierto')
+    while time.time() < tmax:
+        try:
+            logging.info('Esperando apertura del puerto del OPPO')
+            _reader, writer = await asyncio.wait_for(asyncio.open_connection(host, port), timeout=5)
+            writer.close()
+            await writer.wait_closed()
             return(0)
+        except:
+            if delay:
+                await asyncio.sleep(delay)
+    logging.info('Timeout esperando puerto del OPPO')
+    return(1)
 
 def getmainfirmwareversion(config):
     #if config["DebugLevel"]>0: print("getmainfirmwareversion\n")

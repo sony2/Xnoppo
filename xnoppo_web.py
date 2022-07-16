@@ -1,3 +1,4 @@
+import asyncio
 import http.server
 import socketserver
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -19,7 +20,7 @@ import logging.handlers
 import psutil
 
 def get_version():
-    return("2.01")
+    return("2.02")
 
 def thread_function(ws_object):
     print("Thread: starting")
@@ -325,7 +326,11 @@ def test_emby(config):
             return("FAILED")
 
 def test_oppo(config):
-    result=check_socket(config)
+    print('test_oppo')
+    loop = asyncio.get_event_loop()
+    coroutine = check_socket(config)
+    result = loop.run_until_complete(coroutine)
+    print(result)
     if result==0:
             return("OK")
     else:

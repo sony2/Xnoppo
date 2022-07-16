@@ -1,20 +1,20 @@
 {
-    "emby_server": "http://localhost:8096",
-    "user_name": "emby_user",
-    "user_password": "emby_user_pwd",
+    "emby_server": "http://192.168.1.110:8096",
+    "user_name": "emby",
+    "user_password": "emby",
     "output_path": "backup",
     "Oppo_IP": "192.168.1.141",
     "timeout_oppo_conection": 10,
     "timeout_oppo_playitem": 60,
-	"Autoscript": false,
+    "Autoscript": false,
     "Always_ON": false,
-    "TV": "True",
+    "TV": true,
     "TV_IP": "192.168.1.146",
     "TV_KEY": "",
     "TV_DeviceName": "LG Smart TV (OLED65C9MLB)",
     "Source": 0,
     "DebugLevel": 1,
-    "AV": "True",
+    "AV": true,
     "AV_Ip": "192.168.1.136",
     "AV_Input": "pc",
     "AV_Always_ON": false,
@@ -22,18 +22,7 @@
     "AV_CMD_CHANGE_HDMI": "cmd",
     "AV_CMD_POW_OFF": "cmd",
     "MonitoredDevice": "",
-    "servers": [
-        {
-            "name": "server1",
-            "Emby_Path": "/home/drive/",
-            "Oppo_Path": "/pi/drive"
-        },
-        {
-            "name": "server2",
-            "Emby_Path": "192.168.1.80",
-            "Oppo_Path": "SYNOLOGY"
-        }
-    ],
+    "servers": [],
     "Libraries": [
         {
             "Name": "TV en vivo",
@@ -46,5 +35,39 @@
             "Active": true
         }
     ],
-	"resume_on":""
+    "resume_on": "",
+    "Version": "2.02",
+    "enable_all_libraries": false,
+    "TV_model": "",
+    "TV_SOURCES": [],
+    "AV_model": "",
+    "AV_SOURCES": [],
+    "TV_script_init": "",
+    "TV_script_end": "",
+    "av_delay_hdmi": 0,
+    "AV_Port": 23,
+    "timeout_oppo_mount": 60,
+    "language": "es-ES",
+    "default_nfs": false,
+    "wait_nfs": false,
+    "refresh_time": 5,
+    "check_beta": false,
+    "smbtrick": false,
+    "BRDisc": false,
+    "tv_dirs": [
+        "SCRIPTS",
+        "LG"
+    ],
+    "av_dirs": [
+        "MARANTZ",
+        "YAMAHA",
+        "ONKYO",
+        "SCRIPTS",
+        "DENON",
+        "NAD"
+    ],
+    "langs": [
+        "es-ES",
+        "en-US"
+    ]
 }
