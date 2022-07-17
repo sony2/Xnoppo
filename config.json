@@ -16,7 +16,7 @@
     "DebugLevel": 1,
     "AV": true,
     "AV_Ip": "192.168.1.44",
-    "AV_Input": "pc",
+    "AV_Input": "21FN\n",
     "AV_Always_ON": false,
     "AV_CMD_POW_ON": "cmd",
     "AV_CMD_CHANGE_HDMI": "cmd",
@@ -36,12 +36,28 @@
         }
     ],
     "resume_on": "",
-    "Version": "2.02",
+    "Version": "2.1",
     "enable_all_libraries": false,
-    "TV_model": "",
+    "TV_model": "LG",
     "TV_SOURCES": [],
-    "AV_model": "",
-    "AV_SOURCES": [],
+    "AV_model": "PIONEER",
+    "AV_SOURCES": [
+        {
+            "Id": 1,
+            "Name": "DVD",
+            "Param": "04FN\n"
+        },
+        {
+            "Id": 2,
+            "Name": "HDMI3",
+            "Param": "21FN\n"
+        },
+        {
+            "Id": 3,
+            "Name": "Blu-ray (BD)",
+            "Param": "25FN\n"
+        }
+    ],
     "TV_script_init": "",
     "TV_script_end": "",
     "av_delay_hdmi": 0,
@@ -64,10 +80,43 @@
         "ONKYO",
         "SCRIPTS",
         "DENON",
-        "NAD"
+        "NAD",
+        "PIONEER"
     ],
     "langs": [
         "es-ES",
         "en-US"
+    ],
+    "devices": [
+        {
+            "Name": "MacBook Pro de Oscar (2) / Emby for macOS",
+            "Id": "30A753F3-4E49-5333-9A6B-AE5C60CF4708",
+            "LastUserName": "emby",
+            "AppName": "Emby for macOS",
+            "AppVersion": "2.1.6",
+            "LastUserId": "dff484ba5016460b9e506af8762700d6",
+            "DateLastActivity": "2022-07-16T20:54:51.0000000Z",
+            "IconUrl": "https://github.com/MediaBrowser/Emby.Resources/raw/master/images/devices/ipad.png"
+        },
+        {
+            "Name": "SHIELD / AndroidTv",
+            "Id": "3e1e9adb3fe929cc",
+            "LastUserName": "emby",
+            "AppName": "AndroidTv",
+            "AppVersion": "2.0.77g",
+            "LastUserId": "dff484ba5016460b9e506af8762700d6",
+            "DateLastActivity": "2022-07-06T19:25:23.0000000Z",
+            "IconUrl": "https://mediabrowser.github.io/Emby.AndroidTv/appicon.png"
+        },
+        {
+            "Name": "MacBook Pro de Trabajo / Emby for macOS",
+            "Id": "A2A065A5-72E0-5A35-BA91-ED5C3F31EDD3",
+            "LastUserName": "emby",
+            "AppName": "Emby for macOS",
+            "AppVersion": "2.1.6",
+            "LastUserId": "dff484ba5016460b9e506af8762700d6",
+            "DateLastActivity": "2022-05-18T20:41:17.0000000Z",
+            "IconUrl": "https://github.com/MediaBrowser/Emby.Resources/raw/master/images/devices/ipad.png"
+        }
     ]
 }
