@@ -477,6 +477,11 @@ class MyServer(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(bytes(data, "utf-8"))
 
+    def _get_json_data(self):
+        content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
+        post_data = self.rfile.read(content_length)  # <--- Gets the data itself
+        return json.loads(post_data.decode('utf-8'))
+
     def do_GET(self):
         cwd = os.path.dirname(os.path.abspath(__file__))
         if sys.platform.startswith('win'):
@@ -612,16 +617,12 @@ class MyServer(BaseHTTPRequestHandler):
 
         print(self.path)
         if self.path == '/save_config':
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            config = json.loads(post_data.decode('utf-8'))
+            config = self._get_json_data()
             save_config(cwd + separador + 'config.json', config)
             self._send_html_response(json.dumps(config))
 
         if self.path == '/check_emby':
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            config = json.loads(post_data.decode('utf-8'))
+            config = self._get_json_data()
             a = test_emby(config)
             if a == 'OK':
                 self._send_html_response(json.dumps(config))
@@ -635,9 +636,7 @@ class MyServer(BaseHTTPRequestHandler):
             return (0)
 
         if self.path == '/check_oppo':
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            config = json.loads(post_data.decode('utf-8'))
+            config = self._get_json_data()
             a = test_oppo(config)
             if a == 'OK':
                 self._send_html_response(json.dumps(config))
@@ -646,9 +645,7 @@ class MyServer(BaseHTTPRequestHandler):
             return (0)
 
         if self.path == '/test_path':
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            server = json.loads(post_data.decode('utf-8'))
+            server = self._get_json_data()
             config = cargar_config(cwd + separador + 'config.json', tv_path, av_path, lang_path)
             a = test_path(config, server)
             if a == 'OK':
@@ -658,9 +655,7 @@ class MyServer(BaseHTTPRequestHandler):
             return (0)
 
         if self.path == '/navigate_path':
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            path_obj = json.loads(post_data.decode('utf-8'))
+            path_obj = self._get_json_data()
             path = path_obj["path"]
             config = cargar_config(cwd + separador + 'config.json', tv_path, av_path, lang_path)
             a = navigate_folder(path, config)
@@ -670,9 +665,7 @@ class MyServer(BaseHTTPRequestHandler):
             return (0)
 
         if self.path == '/move_tv':
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            config = json.loads(post_data.decode('utf-8'))
+            config = self._get_json_data()
             save_config(cwd + separador + 'config.json', config)
             move_files(tv_path + config["TV_model"], lib_path)
             self._send_html_response(json.dumps(config))
@@ -680,9 +673,7 @@ class MyServer(BaseHTTPRequestHandler):
             return (0)
 
         if self.path == '/move_av':
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            config = json.loads(post_data.decode('utf-8'))
+            config = self._get_json_data()
             save_config(cwd + separador + 'config.json', config)
             move_files(av_path + config["AV_model"], lib_path)
             self._send_html_response(json.dumps(config))
@@ -690,9 +681,7 @@ class MyServer(BaseHTTPRequestHandler):
             return (0)
 
         if self.path == '/get_tv_key':
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            config = json.loads(post_data.decode('utf-8'))
+            config = self._get_json_data()
             a = get_tv_key(config)
             if a == 'OK':
                 save_config(cwd + separador + 'config.json', config)
@@ -702,9 +691,7 @@ class MyServer(BaseHTTPRequestHandler):
             return (0)
 
         if self.path == '/tv_test_conn':
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            config = json.loads(post_data.decode('utf-8'))
+            config = self._get_json_data()
             a = tv_test_conn(config)
             if a == 'OK':
                 self._send_html_response(json.dumps(config))
@@ -713,9 +700,7 @@ class MyServer(BaseHTTPRequestHandler):
             return (0)
 
         if self.path == '/get_tv_sources':
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            config = json.loads(post_data.decode('utf-8'))
+            config = self._get_json_data()
             a = get_tv_sources(config)
             if a == 'OK':
                 save_config(cwd + separador + 'config.json', config)
@@ -725,9 +710,7 @@ class MyServer(BaseHTTPRequestHandler):
             return (0)
 
         if self.path == '/get_av_sources':
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            config = json.loads(post_data.decode('utf-8'))
+            config = self._get_json_data()
             a = get_hdmi_list(config)
             if a != None:
                 config["AV_SOURCES"] = a
@@ -738,9 +721,7 @@ class MyServer(BaseHTTPRequestHandler):
             return (0)
 
         if self.path == '/tv_test_init':
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            config = json.loads(post_data.decode('utf-8'))
+            config = self._get_json_data()
             a = tv_change_hdmi(config)
             if a == 'OK':
                 self._send_html_response(json.dumps(config))
@@ -749,9 +730,7 @@ class MyServer(BaseHTTPRequestHandler):
             return (0)
 
         if self.path == '/tv_test_end':
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            config = json.loads(post_data.decode('utf-8'))
+            config = self._get_json_data()
             a = tv_set_prev(config)
             if a == 'OK':
                 self._send_html_response(json.dumps(config))
@@ -760,9 +739,7 @@ class MyServer(BaseHTTPRequestHandler):
             return (0)
 
         if self.path == '/av_test_on':
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            config = json.loads(post_data.decode('utf-8'))
+            config = self._get_json_data()
             a = av_check_power(config)
             if a == 'OK':
                 self._send_html_response(json.dumps(config))
@@ -771,9 +748,7 @@ class MyServer(BaseHTTPRequestHandler):
             return (0)
 
         if self.path == '/av_test_off':
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            config = json.loads(post_data.decode('utf-8'))
+            config = self._get_json_data()
             a = av_power_off(config)
             if a == 'OK':
                 self._send_html_response(json.dumps(config))
@@ -782,9 +757,7 @@ class MyServer(BaseHTTPRequestHandler):
             return (0)
 
         if self.path == '/av_test_hdmi':
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            config = json.loads(post_data.decode('utf-8'))
+            config = self._get_json_data()
             a = av_change_hdmi(config)
             if a == 'OK':
                 self._send_html_response(json.dumps(config))
