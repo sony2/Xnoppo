@@ -144,7 +144,7 @@ def cargar_config(config_file, tv_path, av_path, lang_path):
     config["av_dirs"] = get_dir_folders(av_path);
     config["langs"] = get_dir_folders(lang_path);
 
-    return (config)
+    return config
 
 
 def check_version(config):
