@@ -21,7 +21,7 @@ import psutil
 
 
 def get_version():
-    return ("2.1")
+    return "2.1"
 
 
 def thread_function(ws_object):
@@ -37,13 +37,12 @@ def restart():
     except:
         sys.exit()
     sys.exit()
-    print('fin restart')
 
 
 def save_config(config_file, config):
     with open(config_file, 'w') as fw:
         json.dump(config, fw, indent=4)
-    fw.close
+    fw.close()
     try:
         emby_wsocket.ws_config = config
         emby_wsocket.EmbySession.config = config
@@ -52,8 +51,7 @@ def save_config(config_file, config):
 
 
 def get_state():
-    status = {}
-    status["Version"] = get_version()
+    status = {"Version": get_version()}
     try:
         status["Playstate"] = emby_wsocket.EmbySession.playstate
         status["playedtitle"] = emby_wsocket.EmbySession.playedtitle
@@ -76,15 +74,15 @@ def get_state():
     print(psutil.virtual_memory().percent)
 
     print(status)
-    return (status)
+    return status
 
 
 def cargar_config(config_file, tv_path, av_path, lang_path):
     with open(config_file, 'r') as f:
         config = json.load(f)
         # ver_configuracion(config)
-    f.close
-    ## new options default config values
+    f.close()
+    # new options default config values
     config["Version"] = get_version()
     default = config.get("Autoscript", False)
     config["Autoscript"] = default
@@ -123,14 +121,14 @@ def cargar_config(config_file, tv_path, av_path, lang_path):
     default = config.get("BRDisc", False)
     config["BRDisc"] = default
 
-    ## testeado de rutas
+    # testeado de rutas
     edit_server = 0
     server_list = config["servers"]
     for server in server_list:
         default = server.get("Test_OK", False)
         server_list[edit_server]["Test_OK"] = default
         edit_server = edit_server + 1
-    ## Cambio de booleans de texto antiguos a boleans actuales.
+    # Cambio de booleans de texto antiguos a boleans actuales.
     if config["TV"] == 'True':
         config["TV"] = True;
     if config["TV"] == 'False':
@@ -154,16 +152,14 @@ def check_version(config):
     version = json.loads(response.text)
     print(version)
     print(config["check_beta"])
-    if config["check_beta"] == True:
+    if config["check_beta"]:
         last_version = version["beta_version"]
         last_version_file = version["beta_version_file"]
     else:
         last_version = version["curr_version"]
         last_version_file = version["curr_version_file"]
     xno_version = get_version()
-    resp = {}
-    resp["version"] = last_version
-    resp["file"] = last_version_file
+    resp = {"version": last_version, "file": last_version_file}
     print(xno_version)
     print(last_version)
     if xno_version < last_version:
@@ -171,7 +167,7 @@ def check_version(config):
     else:
         resp["new_version"] = False
     print(resp)
-    return (resp)
+    return resp
 
 
 def update_version(config, vers_path, cwd):
@@ -180,7 +176,7 @@ def update_version(config, vers_path, cwd):
     response = requests.get(url, headers=headers)
     version = json.loads(response.text)
     print(version)
-    if config["check_beta"] == True:
+    if config["check_beta"]:
         last_version = version["beta_version"]
         last_version_file = version["beta_version_file"]
     else:
@@ -204,40 +200,37 @@ def update_version(config, vers_path, cwd):
         move_files(tv_path + config["TV_model"], lib_path)
     if config["AV"] == True and config["AV_model"] != "":
         move_files(av_path + config["AV_model"], lib_path)
-    resp = {}
-    resp["version"] = last_version
-    resp["file"] = last_version_file
-    resp["new_version"] = False
-    return (resp)
+    resp = {"version": last_version, "file": last_version_file, "new_version": False}
+    return resp
 
 
 def cargar_lang(config_file):
     with open(config_file.encode(sys.getfilesystemencoding()), 'r', encoding='latin-1') as f:
         config = json.load(f)
         # ver_configuracion(config)
-    f.close
-    ## new options default config values
-    return (config)
+    f.close()
+    # new options default config values
+    return config
 
 
 def leer_file(web_file):
     with open(web_file, 'r', encoding='utf8') as f:
         num = f.read()
-    f.close
-    return (num)
+    f.close()
+    return num
 
 
 def leer_img(web_file):
     with open(web_file, 'rb') as f:
         num = f.read()
-    f.close
-    return (num)
+    f.close()
+    return num
 
 
 def test_path(config, server):
     rutas = get_mount_path(server["Emby_Path"] + "/test.mkv", server)
     result2 = test_mount_path(config, rutas["Servidor"], rutas["Carpeta"])
-    return (result2)
+    return result2
 
 
 def get_mount_path(movie, server_data):
@@ -258,11 +251,8 @@ def get_mount_path(movie, server_data):
     final = final + 1
     ultimo = ultimo - 1
     carpeta = movie[final:ultimo]
-    resultado = {}
-    resultado["Servidor"] = servidor
-    resultado["Carpeta"] = carpeta
-    resultado["Fichero"] = fichero
-    return (resultado)
+    resultado = {"Servidor": servidor, "Carpeta": carpeta, "Fichero": fichero}
+    return resultado
 
 
 def test_mount_path(config, servidor, carpeta):
@@ -300,7 +290,7 @@ def test_mount_path(config, servidor, carpeta):
             response_login = LoginNFS(config, servidor)
         else:
             response_login = LoginSambaWithOutID(config, servidor)
-        if config["Always_ON"] == False:
+        if not config["Always_ON"]:
             time.sleep(5)
         response_data6b = getsetupmenu(config)
         if nfs:
@@ -309,13 +299,13 @@ def test_mount_path(config, servidor, carpeta):
             response_mount = mountSharedFolder(servidor, carpeta, '', '', config)
         response = json.loads(response_mount)
         # print(response)
-        if config["Autoscript"] == True:
+        if config["Autoscript"]:
             result = umountSharedFolder(config)
-        if response["success"] == True:
+        if response["success"]:
             a = "OK"
         else:
             a = "FAILURE"
-        return (a)
+        return a
     else:
         print("No se puede conectar, revisa las configuraciones o que el OPPO este encendido o en reposo")
 
@@ -325,11 +315,11 @@ def test_emby(config):
         EmbySession = EmbyHttp(config)
         user_info = EmbySession.user_info
         if user_info["SessionInfo"]["Id"] != "":
-            return ("OK")
+            return "OK"
         else:
-            return ("FAILED")
+            return "FAILED"
     except:
-        return ("FAILED")
+        return "FAILED"
 
 
 def test_oppo(config):
@@ -339,9 +329,9 @@ def test_oppo(config):
     result = loop.run_until_complete(coroutine)
     print(result)
     if result == 0:
-        return ("OK")
+        return "OK"
     else:
-        return ("FAILED")
+        return "FAILED"
 
 
 def carga_libraries(config):
@@ -350,10 +340,7 @@ def carga_libraries(config):
         views_list = EmbySession.get_user_views(EmbySession.user_info["User"]["Id"])
         libraries = []
         for view in views_list:
-            library = {}
-            library["Name"] = view["Name"]
-            library["Id"] = view["Id"]
-            library["Active"] = False
+            library = {"Name": view["Name"], "Id": view["Id"], "Active": False}
             try:
                 lib_list = config["Libraries"]
             except:
@@ -363,16 +350,16 @@ def carga_libraries(config):
                     library["Active"] = lib["Active"]
             libraries.append(library)
         config["Libraries"] = libraries
-        return (0)
+        return 0
     except:
-        return (1)
+        return 1
 
 
 def is_library_active(config, libraryname):
     for library in config["Libraries"]:
         if library["Name"] == libraryname:
-            return (library["Active"])
-    return (False)
+            return library["Active"]
+    return False
 
 
 def get_selectableFolders(config):
@@ -382,12 +369,11 @@ def get_selectableFolders(config):
     for Folder in MediaFolders:
         index = 1
         active = is_library_active(config, Folder["Name"])
-        if config["enable_all_libraries"] == True:
+        if config["enable_all_libraries"]:
             active = True;
         if active == True:
             for SubFolder in Folder["SubFolders"]:
-                server = {}
-                server["Id"] = SubFolder["Id"]
+                server = {"Id": SubFolder["Id"]}
                 if index > 1:
                     server["name"] = Folder["Name"] + "(" + str(index) + ")"
                 else:
@@ -418,7 +404,7 @@ def get_dir_folders(directory):
     for x in dirs:
         if os.path.isdir(x):
             list_dir.append(x)
-    return (list_dir)
+    return list_dir
 
 
 def move_files(src, dest):
@@ -428,7 +414,7 @@ def move_files(src, dest):
         full_file_name = os.path.join(src, file_name)
         if os.path.isfile(full_file_name):
             shutil.copy(full_file_name, dest)
-    return (0)
+    return 0
 
 
 def get_devices(config):
@@ -445,9 +431,9 @@ def get_devices(config):
             except:
                 pass
         config["devices"] = dev_temp
-        return ('OK')
+        return 'OK'
     except:
-        return ('FAILURE')
+        return 'FAILURE'
 
 
 class MyServer(BaseHTTPRequestHandler):
@@ -498,42 +484,42 @@ class MyServer(BaseHTTPRequestHandler):
         print(self.path)
         if self.path.endswith('.html') or self.path.endswith('.png') or self.path.endswith('.jpg'):
             self._static_file(self.path)
-            return (0)
+            return 0
 
         if self.path == '/xnoppo_config':
             a = cargar_config(cwd + separador + 'config.json', tv_path, av_path, lang_path)
             self._send_json_response(a)
-            return (0)
+            return 0
 
         if self.path == '/xnoppo_config_lib':
             a = cargar_config(cwd + separador + 'config.json', tv_path, av_path, lang_path)
             carga_libraries(a)
             self._send_json_response(a)
-            return (0)
+            return 0
 
         if self.path == '/xnoppo_config_dev':
             a = cargar_config(cwd + separador + 'config.json', tv_path, av_path, lang_path)
             get_devices(a)
             self._send_json_response(a)
-            return (0)
+            return 0
 
         if self.path == '/check_version':
             config = cargar_config(cwd + separador + 'config.json', tv_path, av_path, lang_path)
             a = check_version(config)
             self._send_json_response(a)
-            return (0)
+            return 0
 
         if self.path == '/update_version':
             config = cargar_config(cwd + separador + 'config.json', tv_path, av_path, lang_path)
             a = update_version(config, vers_path, cwd)
             restart()
             self._send_json_response(a)
-            return (0)
+            return 0
 
         if self.path == '/get_state':
             a = get_state()
             self._send_json_response(a)
-            return (0)
+            return 0
 
         if self.path == '/restart':
             a = "Restarting"
@@ -544,13 +530,13 @@ class MyServer(BaseHTTPRequestHandler):
             a = cargar_config(cwd + separador + 'config.json', tv_path, av_path, lang_path)
             get_selectableFolders(a)
             self._send_json_response(a)
-            return (0)
+            return 0
 
         if self.path == '/lang':
             config = cargar_config(cwd + separador + 'config.json', tv_path, av_path, lang_path)
             a = cargar_lang(lang_path + config["language"] + separador + 'lang.js')
             self._send_json_response(a)
-            return (0)
+            return 0
 
         if self.path.find("/send_key?") >= 0:
             get_data = self.path
@@ -583,7 +569,7 @@ class MyServer(BaseHTTPRequestHandler):
             self.end_headers()
             a = "ok"
             self.wfile.write(bytes(a, "utf-8"))
-            return (0)
+            return 0
 
         if self.path == '/log.txt':
             self.send_response(200)
@@ -592,10 +578,10 @@ class MyServer(BaseHTTPRequestHandler):
             config = cargar_config(cwd + separador + 'config.json', tv_path, av_path, lang_path)
             a = leer_img(cwd + separador + 'emby_xnoppo_client_logging.log')
             self.wfile.write(bytes(a))
-            return (0)
+            return 0
         else:
-            a = "<html><head><title>https://pythonbasics.org</title></head>" +\
-                "<p>Request: %s</p>" % self.path +\
+            a = "<html><head><title>https://pythonbasics.org</title></head>" + \
+                "<p>Request: %s</p>" % self.path + \
                 "<body>" + \
                 "<p>This is an example web server.</p>" + \
                 "</body></html>"
@@ -633,7 +619,7 @@ class MyServer(BaseHTTPRequestHandler):
                     restart()
             else:
                 self._send_html_response("ERROR", 300)
-            return (0)
+            return 0
 
         if self.path == '/check_oppo':
             config = self._get_json_data()
@@ -642,7 +628,7 @@ class MyServer(BaseHTTPRequestHandler):
                 self._send_html_response(json.dumps(config))
             else:
                 self._send_html_response("ERROR", 300)
-            return (0)
+            return 0
 
         if self.path == '/test_path':
             server = self._get_json_data()
@@ -652,7 +638,7 @@ class MyServer(BaseHTTPRequestHandler):
                 self._send_html_response(json.dumps(server))
             else:
                 self._send_html_response("ERROR", 300)
-            return (0)
+            return 0
 
         if self.path == '/navigate_path':
             path_obj = self._get_json_data()
@@ -662,7 +648,7 @@ class MyServer(BaseHTTPRequestHandler):
             a_json = json.dumps(a)
             print(len(a_json))
             self._send_html_response(json.dumps(a))
-            return (0)
+            return 0
 
         if self.path == '/move_tv':
             config = self._get_json_data()
@@ -670,7 +656,7 @@ class MyServer(BaseHTTPRequestHandler):
             move_files(tv_path + config["TV_model"], lib_path)
             self._send_html_response(json.dumps(config))
             restart()
-            return (0)
+            return 0
 
         if self.path == '/move_av':
             config = self._get_json_data()
@@ -678,7 +664,7 @@ class MyServer(BaseHTTPRequestHandler):
             move_files(av_path + config["AV_model"], lib_path)
             self._send_html_response(json.dumps(config))
             restart()
-            return (0)
+            return 0
 
         if self.path == '/get_tv_key':
             config = self._get_json_data()
@@ -688,7 +674,7 @@ class MyServer(BaseHTTPRequestHandler):
                 self._send_html_response(json.dumps(config))
             else:
                 self._send_html_response("ERROR", 300)
-            return (0)
+            return 0
 
         if self.path == '/tv_test_conn':
             config = self._get_json_data()
@@ -697,7 +683,7 @@ class MyServer(BaseHTTPRequestHandler):
                 self._send_html_response(json.dumps(config))
             else:
                 self._send_html_response("ERROR", 300)
-            return (0)
+            return 0
 
         if self.path == '/get_tv_sources':
             config = self._get_json_data()
@@ -707,7 +693,7 @@ class MyServer(BaseHTTPRequestHandler):
                 self._send_html_response(json.dumps(config))
             else:
                 self._send_html_response("ERROR", 300)
-            return (0)
+            return 0
 
         if self.path == '/get_av_sources':
             config = self._get_json_data()
@@ -718,7 +704,7 @@ class MyServer(BaseHTTPRequestHandler):
                 self._send_html_response(json.dumps(config))
             else:
                 self._send_html_response("ERROR", 300)
-            return (0)
+            return 0
 
         if self.path == '/tv_test_init':
             config = self._get_json_data()
@@ -727,7 +713,7 @@ class MyServer(BaseHTTPRequestHandler):
                 self._send_html_response(json.dumps(config))
             else:
                 self._send_html_response("ERROR", 300)
-            return (0)
+            return 0
 
         if self.path == '/tv_test_end':
             config = self._get_json_data()
@@ -736,7 +722,7 @@ class MyServer(BaseHTTPRequestHandler):
                 self._send_html_response(json.dumps(config))
             else:
                 self._send_html_response("ERROR", 300)
-            return (0)
+            return 0
 
         if self.path == '/av_test_on':
             config = self._get_json_data()
@@ -745,7 +731,7 @@ class MyServer(BaseHTTPRequestHandler):
                 self._send_html_response(json.dumps(config))
             else:
                 self._send_html_response("ERROR", 300)
-            return (0)
+            return 0
 
         if self.path == '/av_test_off':
             config = self._get_json_data()
@@ -754,7 +740,7 @@ class MyServer(BaseHTTPRequestHandler):
                 self._send_html_response(json.dumps(config))
             else:
                 self._send_html_response("ERROR", 300)
-            return (0)
+            return 0
 
         if self.path == '/av_test_hdmi':
             config = self._get_json_data()
@@ -763,7 +749,7 @@ class MyServer(BaseHTTPRequestHandler):
                 self._send_html_response(json.dumps(config))
             else:
                 self._send_html_response("ERROR", 300)
-            return (0)
+            return 0
 
 
 if __name__ == "__main__":
