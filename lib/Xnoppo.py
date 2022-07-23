@@ -847,7 +847,7 @@ def playto_file(EmbySession,data,scripterx=False):
     movie = ""
 
     if scripterx:
-        try
+        try:
             loop = asyncio.get_event_loop()
         except:
             loop = asyncio.new_event_loop()
@@ -855,7 +855,7 @@ def playto_file(EmbySession,data,scripterx=False):
         coroutine = check_socket(EmbySession.config,params["Session_id"])
         result = loop.run_until_complete(coroutine)
     else:
-        try
+        try:
             loop = asyncio.get_event_loop()
         except:
             loop = asyncio.new_event_loop()

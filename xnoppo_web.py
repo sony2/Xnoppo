@@ -258,7 +258,7 @@ def get_mount_path(movie, server_data):
 def test_mount_path(config, servidor, carpeta):
     sendnotifyremote(config["Oppo_IP"])
     # print("Conectando con el OPPO")
-    try
+    try:
         loop = asyncio.get_event_loop()
     except:
         loop = asyncio.new_event_loop()
@@ -330,7 +330,7 @@ def test_emby(config):
 
 def test_oppo(config):
     print('test_oppo')
-    try
+    try:
         loop = asyncio.get_event_loop()
     except:
         loop = asyncio.new_event_loop()
@@ -556,7 +556,7 @@ class MyServer(BaseHTTPRequestHandler):
             print(b)
             config = cargar_config(cwd + separador + 'config.json', tv_path, av_path, lang_path)
             sendnotifyremote(config["Oppo_IP"])
-            try
+            try:
                 loop = asyncio.get_event_loop()
             except:
                 loop = asyncio.new_event_loop()
