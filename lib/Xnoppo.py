@@ -846,9 +846,11 @@ def playto_file(EmbySession,data,scripterx=False):
        response_data2 = EmbySession.playback_stop(params["Session_id"])
     movie = ""
     if scripterx:
+        loop = asyncio.get_event_loop()
         coroutine = check_socket(EmbySession.config,params["Session_id"])
         result = loop.run_until_complete(coroutine)
     else:
+        loop = asyncio.get_event_loop()
         coroutine = check_socket(EmbySession.config)
         result = loop.run_until_complete(coroutine)
     if result==0:
