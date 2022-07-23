@@ -1154,10 +1154,10 @@ def playto_file(EmbySession,data,scripterx=False):
                error='No hay mas info'
            if scripterx:
                l=len(servidor + '/' + carpeta)
-               response_data9 = EmbySession.send_message2(params["Session_id"],EmbySession.lang["x_msg_error_mount"] + servidor + '/' + carpeta + ' - info:' + error + ' long:' + l,5000)
+               response_data9 = EmbySession.send_message2(params["Session_id"],EmbySession.lang["x_msg_error_mount"] + servidor + '/' + carpeta + ' - info:' + error + ' long:' + str(l,5000))
            else:
                l=len(servidor + '/' + carpeta)
-               response_data9 = EmbySession.send_user_message(params["ControllingUserId"], EmbySession.lang["x_msg_error_mount"]  + servidor + '/' + carpeta + ' - info:' + error + ' long:' + l,5000)
+               response_data9 = EmbySession.send_user_message(params["ControllingUserId"], EmbySession.lang["x_msg_error_mount"]  + servidor + '/' + carpeta + ' - info:' + error + ' long:' + str(l,5000))
         if EmbySession.config["Autoscript"]==True:
             result=umountSharedFolder(EmbySession.config)
             if EmbySession.config["DebugLevel"]>0: print("Unmount result: " + result)
