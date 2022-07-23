@@ -846,9 +846,11 @@ def playto_file(EmbySession,data,scripterx=False):
        response_data2 = EmbySession.playback_stop(params["Session_id"])
     movie = ""
     if scripterx:
-        result=check_socket(EmbySession.config,params["Session_id"])
+        coroutine = check_socket(EmbySession.config,params["Session_id"])
+        result = loop.run_until_complete(coroutine)
     else:
-        result=check_socket(EmbySession.config)
+        coroutine = check_socket(EmbySession.config)
+        result = loop.run_until_complete(coroutine)
     if result==0:
         if scripterx:
             if EmbySession.config["DebugLevel"]>0: print("Iniciando en el OPPO - X")

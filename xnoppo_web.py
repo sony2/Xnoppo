@@ -258,7 +258,8 @@ def get_mount_path(movie, server_data):
 def test_mount_path(config, servidor, carpeta):
     sendnotifyremote(config["Oppo_IP"])
     # print("Conectando con el OPPO")
-    result = check_socket(config)
+    coroutine = check_socket(config)
+    result = loop.run_until_complete(coroutine)
     if result == 0:
         response_data6a = getmainfirmwareversion(config)
         response_data6c = getdevicelist(config)
@@ -546,7 +547,8 @@ class MyServer(BaseHTTPRequestHandler):
             print(b)
             config = cargar_config(cwd + separador + 'config.json', tv_path, av_path, lang_path)
             sendnotifyremote(config["Oppo_IP"])
-            result = check_socket(config)
+            coroutine = check_socket(config)
+            result = loop.run_until_complete(coroutine)
             if b == 'PON':
                 if result == 0:
                     response_data6a = getmainfirmwareversion(config)
