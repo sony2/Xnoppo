@@ -1,5 +1,5 @@
 {
-    "emby_server": "http://192.168.1.110:8096",
+    "emby_server": "http://192.168.1.52:8096",
     "user_name": "emby",
     "user_password": "emby",
     "output_path": "backup",
@@ -7,8 +7,8 @@
     "timeout_oppo_conection": 10,
     "timeout_oppo_playitem": 60,
     "Autoscript": false,
-    "Always_ON": false,
-    "TV": true,
+    "Always_ON": true,
+    "TV": false,
     "TV_IP": "192.168.1.146",
     "TV_KEY": "",
     "TV_DeviceName": "LG Smart TV (OLED65C9MLB)",
@@ -16,22 +16,44 @@
     "DebugLevel": 1,
     "AV": true,
     "AV_Ip": "192.168.1.44",
-    "AV_Input": "21FN\n",
+    "AV_Input": "04FN\n",
     "AV_Always_ON": false,
     "AV_CMD_POW_ON": "cmd",
     "AV_CMD_CHANGE_HDMI": "cmd",
     "AV_CMD_POW_OFF": "cmd",
     "MonitoredDevice": "",
-    "servers": [],
-    "Libraries": [
+    "servers": [
         {
-            "Name": "TV en vivo",
-            "Id": "d991b9d28bdde88833e9cdd14174a5ad",
-            "Active": false
+            "Id": "1952",
+            "name": "Movies",
+            "Emby_Path": "/mnt/data1/Movies1",
+            "Oppo_Path": "/192.168.1.120/export/data1/Movies1",
+            "Test_OK": true
         },
         {
-            "Name": "Series TV",
-            "Id": "d1a619a6a967a808973ae77cb091d9fa",
+            "Id": "1953",
+            "name": "Movies(2)",
+            "Emby_Path": "/mnt/data2/Movies2",
+            "Oppo_Path": "/192.168.1.120/export/data2/Movies2",
+            "Test_OK": true
+        },
+        {
+            "Id": "4",
+            "name": "TV shows",
+            "Emby_Path": "/mnt/data1/TVSeries",
+            "Oppo_Path": "/192.168.1.120/export/data1/TVSeries",
+            "Test_OK": true
+        }
+    ],
+    "Libraries": [
+        {
+            "Name": "Movies",
+            "Id": "f137a2dd21bbc1b99aa5c0f6bf02a805",
+            "Active": true
+        },
+        {
+            "Name": "TV shows",
+            "Id": "6c2a057148b4d7c20a207c789aba6d07",
             "Active": true
         }
     ],
@@ -64,59 +86,29 @@
     "AV_Port": 23,
     "timeout_oppo_mount": 60,
     "language": "es-ES",
-    "default_nfs": false,
-    "wait_nfs": false,
+    "default_nfs": true,
+    "wait_nfs": true,
     "refresh_time": 5,
     "check_beta": false,
     "smbtrick": false,
     "BRDisc": false,
     "tv_dirs": [
-        "SCRIPTS",
-        "LG"
+        "LG",
+        "SCRIPTS"
     ],
     "av_dirs": [
-        "MARANTZ",
-        "YAMAHA",
-        "ONKYO",
-        "SCRIPTS",
         "DENON",
         "NAD",
-        "PIONEER"
+        "MARANTZ",
+        "PIONEER",
+        "SCRIPTS",
+        "ONKYO",
+        "YAMAHA"
     ],
     "langs": [
-        "es-ES",
-        "en-US"
+        "en-US",
+        "es-ES"
     ],
     "devices": [
-        {
-            "Name": "MacBook Pro de Oscar (2) / Emby for macOS",
-            "Id": "30A753F3-4E49-5333-9A6B-AE5C60CF4708",
-            "LastUserName": "emby",
-            "AppName": "Emby for macOS",
-            "AppVersion": "2.1.6",
-            "LastUserId": "dff484ba5016460b9e506af8762700d6",
-            "DateLastActivity": "2022-07-16T20:54:51.0000000Z",
-            "IconUrl": "https://github.com/MediaBrowser/Emby.Resources/raw/master/images/devices/ipad.png"
-        },
-        {
-            "Name": "SHIELD / AndroidTv",
-            "Id": "3e1e9adb3fe929cc",
-            "LastUserName": "emby",
-            "AppName": "AndroidTv",
-            "AppVersion": "2.0.77g",
-            "LastUserId": "dff484ba5016460b9e506af8762700d6",
-            "DateLastActivity": "2022-07-06T19:25:23.0000000Z",
-            "IconUrl": "https://mediabrowser.github.io/Emby.AndroidTv/appicon.png"
-        },
-        {
-            "Name": "MacBook Pro de Trabajo / Emby for macOS",
-            "Id": "A2A065A5-72E0-5A35-BA91-ED5C3F31EDD3",
-            "LastUserName": "emby",
-            "AppName": "Emby for macOS",
-            "AppVersion": "2.1.6",
-            "LastUserId": "dff484ba5016460b9e506af8762700d6",
-            "DateLastActivity": "2022-05-18T20:41:17.0000000Z",
-            "IconUrl": "https://github.com/MediaBrowser/Emby.Resources/raw/master/images/devices/ipad.png"
-        }
     ]
 }
